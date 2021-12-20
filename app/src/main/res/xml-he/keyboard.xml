@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="10%p"
+    android:keyHeight="10%p" >
+
+    <Row>
+        <Key android:codes="79"    android:keyLabel="ק" android:keyEdgeFlags="left" android:horizontalGap="20%p"/>
+        <Key android:codes="85"    android:keyLabel="ר" />
+        <Key android:codes="69"    android:keyLabel="א" />
+        <Key android:codes="80"    android:keyLabel="ט"  />
+        <Key android:codes="82"    android:keyLabel="ו" />
+        <Key android:codes="87"    android:keyLabel="ן" />
+        <Key android:codes="83"    android:keyLabel="ם" />
+        <Key android:codes="73"    android:keyLabel="פ"    android:keyEdgeFlags="right"/>
+    </Row>
+    <Row>
+        <Key android:codes="65"    android:keyLabel="ש" android:keyEdgeFlags="left" android:horizontalGap="2.25%p"  />
+        <Key android:codes="81"    android:keyLabel="ד" />
+        <Key android:codes="68"    android:keyLabel="ג" />
+        <Key android:codes="70"    android:keyLabel="כ" />
+        <Key android:codes="71"    android:keyLabel="ע" />
+        <Key android:codes="72"    android:keyLabel="י" />
+        <Key android:codes="74"    android:keyLabel="ח" />
+        <Key android:codes="75"    android:keyLabel="ל" />
+        <Key android:codes="75"    android:keyLabel="ך" />
+        <Key android:codes="76"    android:keyLabel="ף" android:keyEdgeFlags="right"/>
+      
+    </Row>
+    <Row>
+        <Key android:codes="88"    android:keyLabel="ז"  android:keyEdgeFlags="left" android:horizontalGap="5%p" />
+        <Key android:codes="86"    android:keyLabel="ס" />
+        <Key android:codes="67"    android:keyLabel="ב" />
+        <Key android:codes="84"    android:keyLabel="ה"  />
+        <Key android:codes="66"    android:keyLabel="נ" />
+        <Key android:codes="78"    android:keyLabel="מ"  />
+        <Key android:codes="75"    android:keyLabel="צ" />
+        <Key android:codes="75"    android:keyLabel="ת" />
+        <Key android:codes="77"    android:keyLabel="ץ" android:keyEdgeFlags="right"/>
+       
+    </Row>
+    
+</Keyboard>

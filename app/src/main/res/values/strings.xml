@@ -1,0 +1,40 @@
+<resources>
+
+    <string name="app_name">Learn To Write</string>
+
+    <string name="save_prerequist">Must have sentence and audio!!!</string>
+
+    <string name="sentence_added">Sentence added</string>
+
+    <string name="sentence_add_canceled">Sentence add canceled</string>
+
+    <string name="edit_sentence">Edit Sentence</string>
+
+    <string name="delete_sentence">Delete Sentence</string>
+
+    <string name="alert">Alert</string>
+
+    <string name="dialog_delete_confirm_message">Do you confirm delete this sentence?</string>
+
+    <string name="confirm">Confirm</string>
+
+    <string name="sentence_removed">Sentence Removed!</string>
+
+    <string name="not_confirm">Cancel</string>
+
+    <string name="option_exit">Exit</string>
+
+    <string name="switch_to_edit_mode">Switch to edit mode</string>
+
+    <string name="switch_to_play_mode">Switch to play mode</string>
+    <string name="sentence_to_write">Sentence to write</string>
+    <string name="feedback_record">feedback Record</string>
+    <string name="help">Help</string>
+    <string name="back">Back</string>
+
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="set_lang">Choose your language</string>
+
+</resources>

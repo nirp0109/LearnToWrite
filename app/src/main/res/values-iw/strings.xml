@@ -1,0 +1,37 @@
+<resources>
+
+   <string name="app_name">למד לכתוב</string>
+
+
+
+    <string name="save_prerequist">חייב משפט ואודיו!!!</string>
+
+    <string name="sentence_added">משפט הוסף בהצלחה</string>
+
+    <string name="sentence_add_canceled">הוספת משפט בוטלה</string>
+
+    <string name="edit_sentence">עריכת משפט</string>
+
+    <string name="delete_sentence">מחיקת משפט</string>
+
+    <string name="alert">הודעה</string>
+
+    <string name="dialog_delete_confirm_message">האם את/ה מאשר/ת את מחיקת המשפט?</string>
+
+    <string name="confirm">אישור</string>
+
+    <string name="sentence_removed">המשפט הוסר בהצלחה</string>
+
+    <string name="not_confirm">ביטול</string>
+
+    <string name="option_exit">יציאה</string>
+
+    <string name="switch_to_edit_mode">מעבר למצב עריכה</string>
+
+    <string name="switch_to_play_mode">מעבר למצב משחק</string>
+    <string name="sentence_to_write">משפט לכתוב</string>
+    <string name="feedback_record">הקלטת משוב חיובי</string>
+    <string name="help">עזרה</string>
+    <string name="back">חזרה</string>
+    <string name="set_lang">בחירת שפה</string>
+</resources>

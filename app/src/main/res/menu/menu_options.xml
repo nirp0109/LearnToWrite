@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_option_back"
+        android:icon="@drawable/ic_back"
+        android:showAsAction="ifRoom"
+        android:title="Back" />
+
+    <item
+        android:id="@+id/imageButtonConfigure"
+        android:icon="@drawable/ic_setting"
+        android:showAsAction="ifRoom"
+        android:title="Setting">
+        <menu>
+            <item
+                android:id="@+id/menu_option_edit_mode"
+                android:icon="@android:drawable/ic_menu_edit"
+                android:title="@string/switch_to_edit_mode" />
+
+            <item
+                android:id="@+id/menu_option_lang"
+                android:icon="@android:drawable/ic_menu_manage"
+                android:title="@string/set_lang">
+                <menu>
+                    <item
+                        android:id="@+id/menu_option_en"
+                        android:icon="@drawable/us"
+                        android:title="English"/>
+                    <item
+                        android:id="@+id/menu_option_iw"
+                        android:icon="@drawable/il"
+                        android:title="Hebrew"/>
+                </menu>
+
+
+            </item>
+
+
+            <item
+                android:id="@+id/menu_option_exit"
+                android:icon="@android:drawable/ic_lock_power_off"
+                android:title="@string/option_exit" />
+
+
+        </menu>
+
+    </item>
+    <item
+        android:id="@+id/menu_option_help"
+        android:icon="@drawable/ic_help"
+        android:showAsAction="ifRoom"
+        android:title="@string/help" />
+</menu>
