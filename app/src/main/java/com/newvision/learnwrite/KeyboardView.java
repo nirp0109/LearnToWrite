@@ -86,6 +86,7 @@ public class KeyboardView extends LinearLayout {
     public void setKeyBoard(int resourceId,Activity activity) {
         loadKeyBoardFromResource(resourceId);
         this.activity = activity;
+
     }
 
     private void loadKeyBoardFromResource(int resourceId) {
@@ -168,9 +169,9 @@ public class KeyboardView extends LinearLayout {
             }
 
         } catch (IOException e) {
-            Log.d(LOG_TAG + " onCreate", e.getMessage());
+            Log.d("load..Resource", e.getMessage());
         } catch (XmlPullParserException e) {
-            Log.d(LOG_TAG + " onCreate", e.getMessage());
+            Log.d( "load...Resource", e.getMessage());
         }
     }
 
