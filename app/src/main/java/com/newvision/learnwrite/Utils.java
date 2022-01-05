@@ -18,14 +18,27 @@ public class Utils {
 	 * indicate if the locale is Left to right
 	 * @return
 	 */
-	public static boolean isLTR() {
-		Locale locale = Locale.getDefault();
-		String displayName = locale.getDisplayName(locale);
-		byte directionality = Character.getDirectionality(displayName.charAt(0));
-		if(directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT || directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC) {
-			return false;
-		}
-		return true;
+	public static boolean isLTR(Activity activity) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        String language = sharedPreferences.getString(MainActivity.LOCALE,"");
+
+        if(language==null || language.trim().length()==0) {
+            Locale locale = Locale.getDefault();
+            String displayName = locale.getDisplayName(locale);
+            byte directionality = Character.getDirectionality(displayName.charAt(0));
+            if(directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT || directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC) {
+                return false;
+            }
+            return true;
+        } else {
+            if(language.equals("iw")) {
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+
 	}
 
     /**

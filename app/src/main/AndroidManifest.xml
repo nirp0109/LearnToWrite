@@ -39,12 +39,6 @@
             android:name=".SentenceWriteActivity"
             android:screenOrientation="landscape" >
         </activity>
-        <activity
-            android:name=".HelpActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_help"
-            android:theme="@style/FullscreenTheme" >
-        </activity>
     </application>
 
 </manifest>

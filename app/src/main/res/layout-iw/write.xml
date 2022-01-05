@@ -23,14 +23,6 @@
         </ScrollView>
 
     </LinearLayout>
-
-    <com.newvision.learnwrite.KeyboardView
-        android:id="@+id/keyboardLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center_vertical|center_horizontal">
-    </com.newvision.learnwrite.KeyboardView>
+    <include layout="@layout/keyboard"/>
 
 </LinearLayout>

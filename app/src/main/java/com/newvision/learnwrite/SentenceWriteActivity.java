@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 
 import android.graphics.drawable.Drawable;
@@ -32,7 +33,8 @@ import com.newvision.learnwrite.db.DBConstants;
 import com.newvision.learnwrite.db.DBHandler;
 import com.newvision.learnwrite.media.MediaAudioManager;
 
-public class SentenceWriteActivity extends Activity implements  KeyboardView.FinishOnSize{
+public class SentenceWriteActivity extends Activity {
+    public static  int PIXELS_TEXTVIEW_SIZE = 40;
     private String sentence = null;
 
 
@@ -41,7 +43,6 @@ public class SentenceWriteActivity extends Activity implements  KeyboardView.Fin
     private String[] particles;
     private char[] allSentence = null;
     private  MediaAudioManager mediaAudioManager = new MediaAudioManager(this,0,0);
-    private KeyboardView keyBoardView = null;
     private String finishSentenceAudioFilPath = null;
     private  boolean complete = false;
 
@@ -69,7 +70,7 @@ public class SentenceWriteActivity extends Activity implements  KeyboardView.Fin
             }
 
             LinearLayout fillSentenceLayout = (LinearLayout)findViewById(R.id.fillSentenceLayout);
-            boolean isLTR = Utils.isLTR();
+            boolean isLTR = Utils.isLTR(this);
 
             fillSentenceLayout.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
@@ -82,6 +83,13 @@ public class SentenceWriteActivity extends Activity implements  KeyboardView.Fin
             linearLayoutHorzLinearLayout.setLayoutParams(layoutParams);
             int charCounter=-1;
             int counter = 0;
+
+            Resources r = getResources();
+            float px = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    PIXELS_TEXTVIEW_SIZE,
+                    r.getDisplayMetrics()
+            );
 
             for (int particleIndex=0; particleIndex<particles.length; particleIndex++) {
                 String particle = particles[particleIndex];
@@ -100,9 +108,9 @@ public class SentenceWriteActivity extends Activity implements  KeyboardView.Fin
                  }
                 for (int charIndex=0;charIndex<particle.length();charIndex++) {
                     TextViewEffects textView = new TextViewEffects(this);
-                    textView.setWidth(keyBoardView.actualTextViewWidth);
-                    textView.setHeight(keyBoardView.actualTextViewHeight);
-                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, keyBoardView.actualTextViewSize);
+                    textView.setWidth((int)px);
+                    textView.setHeight((int)px);
+                    //textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, PIXELS_TEXTVIEW_SIZE);
                     textView.setBackgroundColor(Color.GRAY);
                     textView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
                     textView.setOnDragListener(myDragListener);
@@ -117,7 +125,7 @@ public class SentenceWriteActivity extends Activity implements  KeyboardView.Fin
                     textView.setId(charCounter);
                     //  textView.setText(""+ charCounter);
                     textView.setText(""+allSentence[charCounter]);
-                    if(Utils.isLTR()) {
+                    if(Utils.isLTR(this)) {
                         if (charIndex == 0) {
                             textViewLayoutParams.leftMargin = 12;
                         }
@@ -152,10 +160,31 @@ public class SentenceWriteActivity extends Activity implements  KeyboardView.Fin
         myDragListener = new MyDragListener();
         myTouchListener = new MyTouchListener();
 
-        keyBoardView = (KeyboardView)findViewById(R.id.keyboardLayout);
-        keyBoardView.setOnTouchListener(myTouchListener);
-        keyBoardView.setKeyBoard(R.xml.keyboard,this);
+        ViewGroup viewGroup = (ViewGroup)findViewById(R.id.keyboard);
+        if(viewGroup!=null) {
+            setTouchListeberFromKeyboardKeys(viewGroup);
+        }
+
+
+//        keyBoardView = (KeyboardView)findViewById(R.id.keyboardLayout);
+//        keyBoardView.setOnTouchListener(myTouchListener);
+//        keyBoardView.setKeyBoard(R.xml.keyboard,this);
         mediaAudioManager.clearWaitingSongs();
+        runOnUiThread(()->refreshMe());
+    }
+
+    private void setTouchListeberFromKeyboardKeys(ViewGroup viewGroup) {
+
+        int childCount = viewGroup.getChildCount();
+        for (int childIndex=0;childIndex<childCount;childIndex++) {
+            View childAt = viewGroup.getChildAt(childIndex);
+            if(childAt instanceof TextView) {
+                ((TextView)childAt).setOnTouchListener(myTouchListener);
+                PIXELS_TEXTVIEW_SIZE = Math.max(childAt.getWidth(), PIXELS_TEXTVIEW_SIZE);
+            } else if(childAt instanceof ViewGroup) {
+                setTouchListeberFromKeyboardKeys((ViewGroup) childAt);
+            }
+        }
     }
 
     @Override
@@ -235,7 +264,7 @@ public class SentenceWriteActivity extends Activity implements  KeyboardView.Fin
 	      case DragEvent.ACTION_DROP:
 	        // Dropped, reassign View to ViewGroup
               TextView view = (TextView) event.getLocalState();
-	        ViewGroup owner = (ViewGroup) view.getParent();
+	       // ViewGroup owner = (ViewGroup) view.getParent();
 	        //owner.removeView(view);
               TextViewEffects container = (TextViewEffects) v;
               int textViewID = container.getId();
