@@ -84,12 +84,15 @@ public class SentenceWriteActivity extends Activity {
             int charCounter=-1;
             int counter = 0;
 
+            /*
             Resources r = getResources();
             float px = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,
                     PIXELS_TEXTVIEW_SIZE,
                     r.getDisplayMetrics()
             );
+             */
+            float px = PIXELS_TEXTVIEW_SIZE;
 
             for (int particleIndex=0; particleIndex<particles.length; particleIndex++) {
                 String particle = particles[particleIndex];
@@ -146,7 +149,7 @@ public class SentenceWriteActivity extends Activity {
     @Override
 	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
-
+        PIXELS_TEXTVIEW_SIZE = (int)getResources().getDimension(R.dimen.text_size);
 		setContentView(R.layout.write);
         if(savedInstanceState!=null) {
             String data = savedInstanceState.getString("data");
