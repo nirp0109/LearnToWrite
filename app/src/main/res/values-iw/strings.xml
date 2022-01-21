@@ -34,4 +34,6 @@
     <string name="help">עזרה</string>
     <string name="back">חזרה</string>
     <string name="set_lang">בחירת שפה</string>
+    <string name="audio_record_required">לשם נתינת פידבק קולי נדרשת השראת להקלטה קולית</string>
+ <string name="extenal_write_required">לשם שמירת ההקלטה נחוצה הרשאה של שמירה</string>
 </resources>

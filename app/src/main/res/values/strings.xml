@@ -36,5 +36,6 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="set_lang">Choose your language</string>
-
+    <string name="audio_record_required">For given audio feedback a permission to record audio is required </string>
+    <string name="extenal_write_required">For saving the audio record in the external storage a permission is needed</string>
 </resources>

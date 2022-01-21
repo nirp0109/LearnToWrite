@@ -1,12 +1,15 @@
 package com.newvision.learnwrite;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.newvision.learnwrite.beans.Sentence;
 import com.newvision.learnwrite.db.DBConstants;
 import com.newvision.learnwrite.db.DBHandler;
 import com.newvision.learnwrite.media.MediaAudioManager;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,21 +19,28 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.util.concurrent.CancellationException;
+import androidx.core.app.ActivityCompat;
 
-import javax.xml.transform.OutputKeys;
+import java.util.ArrayList;
+
 
 public class SentenceEditActivity extends Activity implements OnClickListener {
-	
+
+	public static final int REQUEST_CODE_FOR_AUDIO_RECORD_AND_SAVE_EXTERNAL = 1;
+	public static final int REQUEST_CODE_FOR_AUDIO_RECORD = 2;
+	public static final int REQUEST_CODE_FOR_EXTERNAL_SAVE = 3;
+
 	private String sentenceText = "";
 	private String recordPath = "";
 	private DBHandler handler = null;
 	MediaAudioManager mediaManager = null;
+	private View mLayout;
 	
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit);
-		
+		mLayout = findViewById(R.id.imageButtonSpeak);
+
 		sentenceText = null;
 		recordPath = null;
 		handler = new DBHandler(getApplicationContext(), DBConstants.DB_VERSION);
@@ -82,13 +92,17 @@ public class SentenceEditActivity extends Activity implements OnClickListener {
 		int id = view.getId();
 		switch (id) {
 		case R.id.imageButtonSpeak:
-			mediaManager.toggleRecord();
-			recordPath = mediaManager.getSoundPath();
-			if(recordPath!=null && recordPath.trim().length()>0) {
-				ImageButton playStopButton = (ImageButton)findViewById(R.id.imageButtonPlay);
-				ImageButton saveButton = (ImageButton)findViewById(R.id.imageButtonSave);
-				changeButtonStates(playStopButton, saveButton);
+			int[] permissions = {REQUEST_CODE_FOR_AUDIO_RECORD, REQUEST_CODE_FOR_EXTERNAL_SAVE};
+			if(permissionOk(permissions)) {
+				mediaManager.toggleRecord();
+				recordPath = mediaManager.getSoundPath();
+				if (recordPath != null && recordPath.trim().length() > 0) {
+					ImageButton playStopButton = (ImageButton) findViewById(R.id.imageButtonPlay);
+					ImageButton saveButton = (ImageButton) findViewById(R.id.imageButtonSave);
+					changeButtonStates(playStopButton, saveButton);
+				}
 			}
+
 			break;
 		case R.id.imageButtonPlay:
 			mediaManager.togglePlay();
@@ -97,7 +111,7 @@ public class SentenceEditActivity extends Activity implements OnClickListener {
 		case R.id.imageButtonSave:
 			EditText editText =  (EditText)findViewById(R.id.editTextSentence);
 			sentenceText = editText.getText().toString();
-			if(sentenceText != null && recordPath !=null && sentenceText.trim().length() > 0 && recordPath.trim().length() > 0) {
+			if(sentenceText != null  && sentenceText.trim().length() > 0 && recordPath !=null && recordPath.trim().length() > 0) {
 				Sentence sentence = new Sentence(sentenceText, recordPath);
 				handler.addSentence(sentence);
 				setResult(RESULT_OK);
@@ -112,7 +126,77 @@ public class SentenceEditActivity extends Activity implements OnClickListener {
 		
 	}
 
-    @Override
+	private boolean permissionOk(int[] permissionCodes) {
+		boolean[] permissionsBol = new boolean[permissionCodes.length];
+		int index = -1;
+		boolean needPermissions = false;
+		ArrayList<String> permissionList = new ArrayList<>();
+		for (int permission:permissionCodes) {
+			index++;
+			String permissionStr = "";
+			int permissionCode = permissionCodes[index];
+			if(permission == REQUEST_CODE_FOR_AUDIO_RECORD) {
+				permissionStr = Manifest.permission.RECORD_AUDIO;
+			} else {
+				permissionStr = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+			}
+
+			if (ActivityCompat.checkSelfPermission(
+					this, permissionStr) ==
+					PackageManager.PERMISSION_GRANTED) {
+				// You can use the API that requires the permission.
+				permissionsBol[index] = true;
+			} else if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissionStr)) {
+				// In an educational UI, explain to the user why your app requires this
+				// permission for a specific feature to behave as expected. In this UI,
+				// include a "cancel" or "no thanks" button that allows the user to
+				// continue using your app without granting the permission.
+				//		showInContextUI(...);
+				if(permissionCode == REQUEST_CODE_FOR_AUDIO_RECORD) {
+					Snackbar.make(mLayout, R.string.audio_record_required,
+							Snackbar.LENGTH_INDEFINITE).setAction(R.string.confirm, new View.OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							// Request the permission
+							ActivityCompat.requestPermissions(SentenceEditActivity.this,
+									new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_CODE_FOR_AUDIO_RECORD);
+						}
+					}).show();
+				} else {
+					Snackbar.make(mLayout, R.string.extenal_write_required,
+							Snackbar.LENGTH_INDEFINITE).setAction(R.string.confirm, new View.OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							// Request the permission
+							ActivityCompat.requestPermissions(SentenceEditActivity.this,
+									new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_FOR_EXTERNAL_SAVE);
+						}
+					}).show();
+
+				}
+			} else {
+				needPermissions = true;
+				permissionList.add(permissionStr);
+			}
+		}
+		if(needPermissions) {
+			String[] permissionStrArray = new String[permissionList.size()];
+			ActivityCompat.requestPermissions(this,
+					permissionList.toArray(permissionStrArray),
+					REQUEST_CODE_FOR_AUDIO_RECORD_AND_SAVE_EXTERNAL);
+		}
+
+
+		boolean result;
+		result = permissionsBol[0];
+		for (int indexBol=1;indexBol<permissionsBol.length;indexBol++) {
+			result = result && permissionsBol[indexBol];
+		}
+		return result;
+
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = new MenuInflater(this);
         menuInflater.inflate(R.menu.menu_options, menu);
@@ -142,4 +226,9 @@ public class SentenceEditActivity extends Activity implements OnClickListener {
         }
         return super.onOptionsItemSelected(item);
     }
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+	}
 }
